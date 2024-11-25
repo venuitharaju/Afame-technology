@@ -1,0 +1,22 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load the Excel file
+file_path = 'ECOMM DATA.xlsx'  # Update with correct path if needed
+df = pd.read_excel(file_path)
+
+# Display basic information and first few rows
+print(df.info())
+print(df.head())
+
+# Ensure the 'Order Date' column is in datetime format
+df['Order Date'] = pd.to_datetime(df['Order Date'], errors='coerce') 
+
+# Calculate Total Sales 
+# Handling potential variations in 'Unit_Price' column name
+try:
+    df['Total_Sales'] = df['Quantity'] * df['Unit_Price'] 
+except KeyError:
+    if 'Unit Price' in df.columns:
+        df['Total_Sales'] = df['Quantity'] * df['Unit Price']
